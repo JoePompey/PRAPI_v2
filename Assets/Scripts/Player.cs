@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     
     private float Speed;
     private float SpinSpeed;
+    private float JumpSpeed;
+    private bool Grounded;
     
     private bool ForwardPressed = false;
     private bool BackwardPressed = false;
@@ -23,8 +26,10 @@ public class Player : MonoBehaviour
     {
         ControlsFile = new InputSystem_Actions();
         PlayerControls = ControlsFile.PlayerControls;
+        
         Body = GetComponent<Rigidbody>();
         Body.freezeRotation = true;
+        Body.linearDamping = 10f;
     }
     private void OnEnable()
     {
@@ -54,30 +59,30 @@ public class Player : MonoBehaviour
     {
         Speed = 10f;
         SpinSpeed = 5f;
+        JumpSpeed = 20f;
+        Grounded = false;
     }
     //.
 
     private void FixedUpdate()
     { 
-        //Checks button input values.
+        //Links inputs to functions.
         if (ForwardPressed)
         {
-            Move(Speed, 0);
+            Move(Speed, 0, 0);
         }
-
         if (BackwardPressed)
         {
-            Move(-Speed, 0);
+            Move(-Speed, 0, 0);
         }
 
         if (StrafeRightPressed)
         {
-            Move(0, Speed);
+            Move(0, Speed, 0);
         }
-
         if (StrafeLeftPressed)
         {
-            Move(0, -Speed);
+            Move(0, -Speed, 0);
         }
 
         if (SteerRightPressed)
@@ -88,19 +93,59 @@ public class Player : MonoBehaviour
         {
             Rotate(-SpinSpeed);
         }
+
+        if (PlayerControls.FindAction("Jump").IsPressed() && Grounded)
+        {
+            Move(0, 0, JumpSpeed);
+        }
         //.
 
         //Applies gravity.
-        Vector3 Gravity = Vector3.down * 9.8f * Time.deltaTime;
-        Body.MovePosition(Body.position + Gravity);
+        if (!Grounded)
+        {
+            Vector3 Gravity = Vector3.down * 9.8f * Time.deltaTime;
+            Body.MovePosition(Body.position + Gravity);
+        }
         //.
     }
 
-    private void Move(float ForwardAcceleration, float RightAcceleration)
+    //Checks if grounded so player can jump with slight buffers for smoothness.
+    private void OnCollisionStay(Collision Collider)
+    {
+        if (Collider.gameObject.CompareTag("Ground"))
+        {
+            StartCoroutine(WaitForGravity(false));
+        }
+    }
+
+    private void OnCollisionExit(Collision Collider)
+    {
+        if (Collider.gameObject.CompareTag("Ground"))
+        {
+            StartCoroutine(WaitForGravity(true));
+        }
+    }
+
+    IEnumerator WaitForGravity(bool GoingUp)
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (GoingUp)
+        {
+            Grounded = false;
+        }
+        else
+        {
+            Grounded = true;
+        }
+    }
+    //.
+
+    private void Move(float ForwardAcceleration, float RightAcceleration, float JumpAcceleration)
     {
         Vector3 DeltaForward = Body.transform.forward * ForwardAcceleration * Time.deltaTime;
         Vector3 DeltaRight = Body.transform.right * RightAcceleration * Time.deltaTime;
-        Vector3 NewPos = Body.position + DeltaForward + DeltaRight;
+        Vector3 DeltaUp = Vector3.up * JumpAcceleration * Time.deltaTime;
+        Vector3 NewPos = Body.position + DeltaForward + DeltaRight + DeltaUp;
 
         Body.MovePosition(NewPos);
     }
