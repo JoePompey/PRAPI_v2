@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private bool Punching = false;
     private bool PunchingOut = false;
     private bool PullingPunch = false;
+    private bool IsRightFist = true;
 
     private bool ForwardPressed = false;
     private bool BackwardPressed = false;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
     private Rigidbody Body;
     private TextMeshPro HealthLabel;
     private GameObject FistR;
+    private GameObject FistL;
 
     private void Awake()
     {
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
         HealthLabel = transform.Find("Health Label").GetComponent<TextMeshPro>();
 
         FistR = transform.Find("Model/FistR").gameObject;
+        FistL = transform.Find("Model/FistL").gameObject;
     }
     private void OnEnable()
     {
@@ -217,9 +220,8 @@ public class Player : MonoBehaviour
     //Lets player punch with cooldowns.
     IEnumerator Punch()
     {
-        Punching = true;
-        
         //Punching out.
+        Punching = true;
         PunchingOut = true;
         //.
 
@@ -238,12 +240,30 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         Punching = false;
         //.
+
+        //Switch punching fist.
+        if (IsRightFist)
+        {
+            IsRightFist = false;
+        }
+        else
+        {
+            IsRightFist = true;
+        }
+        //.
     }
     
     //-Smooths out the fist's movement when punching.
     private void PunchSmoothener(float Direction)
     {
-        FistR.transform.position += FistR.transform.forward * Speed * Time.deltaTime * Direction;
+        if (IsRightFist)
+        {
+            FistR.transform.position += FistR.transform.forward * Speed * Time.deltaTime * Direction;
+        }
+        else
+        {
+            FistL.transform.position += FistL.transform.forward * Speed * Time.deltaTime * Direction;
+        }
     }
     //-.
     //.
