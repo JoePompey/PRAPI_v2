@@ -64,26 +64,44 @@ public class Player : MonoBehaviour
     }
     //.
 
+    Vector3 MoveDirection = Vector3.zero;
     private void FixedUpdate()
     { 
         //Links inputs to functions.
-        if (ForwardPressed)
+        if (ForwardPressed || BackwardPressed)
         {
-            Move(Speed, 0, 0);
+            if (ForwardPressed)
+            {
+                MoveDirection.x += 1f;
+            }
+            if (BackwardPressed)
+            {
+                MoveDirection.x -= 1f;
+            }
         }
-        if (BackwardPressed)
+        else
         {
-            Move(-Speed, 0, 0);
+            MoveDirection.x = 0;
         }
 
-        if (StrafeRightPressed)
+        if (StrafeRightPressed || StrafeLeftPressed)
         {
-            Move(0, Speed, 0);
+            if (StrafeRightPressed)
+            {
+                MoveDirection.y += 1f;
+            }
+            if (StrafeLeftPressed)
+            {
+                MoveDirection.y -= 1f;
+            }
         }
-        if (StrafeLeftPressed)
+        else
         {
-            Move(0, -Speed, 0);
+            MoveDirection.y = 0;
         }
+
+        MoveDirection = MoveDirection.normalized;
+        Move(MoveDirection.x * Speed, MoveDirection.y * Speed, 0);
 
         if (SteerRightPressed)
         {
