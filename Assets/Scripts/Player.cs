@@ -218,19 +218,31 @@ public class Player : MonoBehaviour
     //.
 
     //Lets player punch with cooldowns.
+    private GameObject CurrentFist;
     IEnumerator Punch()
     {
+        if (IsRightFist)
+        {
+            CurrentFist = FistR;
+        }
+        else
+        {
+            CurrentFist = FistL;
+        }
+
         //Punching out.
         Punching = true;
         PunchingOut = true;
+        CurrentFist.GetComponent<SphereCollider>().isTrigger = true;
         //.
 
         //Pulling punch.
         yield return new WaitForSeconds(0.05f);
         PunchingOut = false;
         PullingPunch = true;
+        CurrentFist.GetComponent<SphereCollider>().isTrigger = false;
         //.
-        
+
         //Finishing punch.
         yield return new WaitForSeconds(0.05f);
         PullingPunch = false;
@@ -260,6 +272,7 @@ public class Player : MonoBehaviour
         {
             FistR.transform.position += FistR.transform.forward * Speed * Time.deltaTime * Direction;
         }
+
         else
         {
             FistL.transform.position += FistL.transform.forward * Speed * Time.deltaTime * Direction;

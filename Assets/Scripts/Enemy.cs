@@ -42,12 +42,20 @@ public class Enemy : MonoBehaviour
         ChasePlayer();
     }
 
-    private void EditHealth(float HealthChange)
+    //Changes health and updates label.
+    public void EditHealth(float HealthChange)
     {
         Health += HealthChange;
         HealthLabel.text = "Health: " + Health;
-    }
 
+        if (Health <= 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
+    //.
+
+    //Follows and faces player.
     private void ChasePlayer()
     {
         Vector3 PlayerDirection = Player.position - Body.position;
@@ -58,4 +66,5 @@ public class Enemy : MonoBehaviour
         Vector3 CameraDirection = Camera.main.transform.position - HealthLabel.transform.position;
         HealthLabel.transform.rotation = Quaternion.LookRotation(CameraDirection * -1);
     }
+    //.
 }
