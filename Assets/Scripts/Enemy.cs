@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour
         HealthLabel = transform.Find("Health Label").GetComponent<TextMeshPro>();
 
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        print(Player);
     }
 
     private void Start()

@@ -9,21 +9,26 @@ public class Player : MonoBehaviour
     private InputSystem_Actions ControlsFile;
     private InputActionMap PlayerControls;
 
-    private float Speed;
-    private float SpinSpeed;
-    private float JumpSpeed;
-    private bool Grounded;
-    private float Health;
-    
+    private float Speed = 10f;
+    private float SpinSpeed = 5f;
+    private float JumpSpeed = 20f;
+    private bool Grounded = false;
+    private float Health = 100f;
+    private bool Punching = false;
+    private bool PunchingOut = false;
+    private bool PullingPunch = false;
+
     private bool ForwardPressed = false;
     private bool BackwardPressed = false;
     private bool StrafeRightPressed = false;
     private bool StrafeLeftPressed = false;
     private bool SteerRightPressed = false;
     private bool SteerLeftPressed = false;
+    private bool UsePressed = false;
 
     private Rigidbody Body;
     private TextMeshPro HealthLabel;
+    private GameObject FistR;
 
     private void Awake()
     {
@@ -35,6 +40,8 @@ public class Player : MonoBehaviour
         Body.linearDamping = 10f;
 
         HealthLabel = transform.Find("Health Label").GetComponent<TextMeshPro>();
+
+        FistR = transform.Find("Model/FistR").gameObject;
     }
     private void OnEnable()
     {
@@ -58,16 +65,13 @@ public class Player : MonoBehaviour
 
         PlayerControls.FindAction("SteerLeft").performed += ctx => SteerLeftPressed = true;
         PlayerControls.FindAction("SteerLeft").canceled += ctx => SteerLeftPressed = false;
+
+        PlayerControls.FindAction("Use").performed += ctx => UsePressed = true;
+        PlayerControls.FindAction("Use").canceled += ctx => UsePressed = false;
         //.
     }
     private void Start()
     {
-        Speed = 10f;
-        SpinSpeed = 5f;
-        JumpSpeed = 20f;
-        Grounded = false;
-        Health = 100f;
-
         EditHealth(0f);
     }
     //.
@@ -127,6 +131,22 @@ public class Player : MonoBehaviour
         {
             Move(0, 0, JumpSpeed);
         }
+
+        if (UsePressed && Punching == false)
+        {
+            StartCoroutine(Punch());
+        }
+        //.
+
+        //Calls punch smoothener dependent on direction.
+        if (PunchingOut)
+        {
+            PunchSmoothener(1f);
+        }
+        if (PullingPunch)
+        {
+            PunchSmoothener(-1f);
+        }
         //.
 
         //Applies gravity.
@@ -169,6 +189,7 @@ public class Player : MonoBehaviour
     }
     //.
 
+    //Movement and rotation.
     private void Move(float ForwardAcceleration, float RightAcceleration, float JumpAcceleration)
     {
         Vector3 DeltaForward = Body.transform.forward * ForwardAcceleration * Time.deltaTime;
@@ -183,10 +204,47 @@ public class Player : MonoBehaviour
     {
         Body.MoveRotation(Body.rotation * Quaternion.Euler(0f, Spin, 0f));
     }
+    //.
 
+    //Changes health and updates label.
     private void EditHealth(float HealthChange)
     {
         Health += HealthChange;
         HealthLabel.text = "Health: " + Health;
     }
+    //.
+
+    //Lets player punch with cooldowns.
+    IEnumerator Punch()
+    {
+        Punching = true;
+        
+        //Punching out.
+        PunchingOut = true;
+        //.
+
+        //Pulling punch.
+        yield return new WaitForSeconds(0.05f);
+        PunchingOut = false;
+        PullingPunch = true;
+        //.
+        
+        //Finishing punch.
+        yield return new WaitForSeconds(0.05f);
+        PullingPunch = false;
+        //.
+
+        //Punch cooldown.
+        yield return new WaitForSeconds(0.1f);
+        Punching = false;
+        //.
+    }
+    
+    //-Smooths out the fist's movement when punching.
+    private void PunchSmoothener(float Direction)
+    {
+        FistR.transform.position += FistR.transform.forward * Speed * Time.deltaTime * Direction;
+    }
+    //-.
+    //.
 }
