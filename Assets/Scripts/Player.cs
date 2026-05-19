@@ -1,17 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
     //Initialisation.
     private InputSystem_Actions ControlsFile;
     private InputActionMap PlayerControls;
-    
+
     private float Speed;
     private float SpinSpeed;
     private float JumpSpeed;
     private bool Grounded;
+    private float Health;
     
     private bool ForwardPressed = false;
     private bool BackwardPressed = false;
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour
     private bool SteerLeftPressed = false;
 
     private Rigidbody Body;
+    private TextMeshPro HealthLabel;
 
     private void Awake()
     {
@@ -30,6 +33,8 @@ public class Player : MonoBehaviour
         Body = GetComponent<Rigidbody>();
         Body.freezeRotation = true;
         Body.linearDamping = 10f;
+
+        HealthLabel = transform.Find("Health Label").GetComponent<TextMeshPro>();
     }
     private void OnEnable()
     {
@@ -61,6 +66,9 @@ public class Player : MonoBehaviour
         SpinSpeed = 5f;
         JumpSpeed = 20f;
         Grounded = false;
+        Health = 100f;
+
+        EditHealth(0f);
     }
     //.
 
@@ -101,7 +109,10 @@ public class Player : MonoBehaviour
         }
 
         MoveDirection = MoveDirection.normalized;
-        Move(MoveDirection.x * Speed, MoveDirection.y * Speed, 0);
+        if (MoveDirection.magnitude != 0)
+        {
+            Move(MoveDirection.x * Speed, MoveDirection.y * Speed, 0);
+        }
 
         if (SteerRightPressed)
         {
@@ -171,5 +182,11 @@ public class Player : MonoBehaviour
     private void Rotate(float Spin)
     {
         Body.MoveRotation(Body.rotation * Quaternion.Euler(0f, Spin, 0f));
+    }
+
+    private void EditHealth(float HealthChange)
+    {
+        Health += HealthChange;
+        HealthLabel.text = "Health: " + Health;
     }
 }
