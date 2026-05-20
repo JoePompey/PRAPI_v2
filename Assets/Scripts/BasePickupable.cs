@@ -9,9 +9,12 @@ public class BasePickupable : MonoBehaviour
 
     private bool GrabPressed = false;
     private bool DropPressed = false;
+    private bool IsGrabbed = false;
 
     private Transform Player;
     private Transform Hand;
+    private SphereCollider ModelCollider;
+    private Rigidbody Body;
 
     private void Awake()
     {
@@ -20,6 +23,8 @@ public class BasePickupable : MonoBehaviour
 
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         Hand = Player.Find("Model/FistR");
+        ModelCollider = GameObject.Find("Model/Placehold").GetComponent<SphereCollider>();
+        Body = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -36,9 +41,31 @@ public class BasePickupable : MonoBehaviour
     }
     //.
 
+    private void FixedUpdate()
+    {
+        if (GrabPressed)
+        {
+            ModelCollider.enabled = false;
+            IsGrabbed = true;
+        }
+        if (DropPressed)
+        {
+            ModelCollider.enabled = true;
+            IsGrabbed = false;
+        }
+
+        if (!IsGrabbed)
+        {
+            ApplyGravity();
+        }
+    }
+
     private void LateUpdate()
     {
-        FollowHand();
+        if (IsGrabbed)
+        {
+            FollowHand();
+        }
     }
 
     //Keeps item in player hand.
@@ -48,4 +75,12 @@ public class BasePickupable : MonoBehaviour
         transform.rotation = Hand.rotation;
     }
     //.
+
+    private void ApplyGravity()
+    {
+        //Applies gravity.
+        Vector3 Gravity = Vector3.down * 9.8f * Time.deltaTime;
+        Body.MovePosition(Body.position + Gravity);
+        //.
+    }
 }
