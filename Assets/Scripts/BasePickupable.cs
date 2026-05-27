@@ -10,8 +10,10 @@ public class BasePickupable : MonoBehaviour
     private bool GrabPressed = false;
     private bool DropPressed = false;
     private bool IsGrabbed = false;
+    public string ItemName = "Base";
 
-    private Transform Player;
+    private Transform PlayerTransform;
+    private Player PlayerScript;
     private Transform Hand;
     private SphereCollider ModelCollider;
     private Rigidbody Body;
@@ -21,8 +23,9 @@ public class BasePickupable : MonoBehaviour
         ControlsFile = new InputSystem_Actions();
         PlayerControls = ControlsFile.PlayerControls;
 
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
-        Hand = Player.Find("Model/FistR");
+        PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        PlayerScript = PlayerTransform.GetComponent<Player>();
+        Hand = PlayerTransform.Find("Model/FistR");
         ModelCollider = GameObject.Find("Model/Placehold").GetComponent<SphereCollider>();
         Body = GetComponent<Rigidbody>();
     }
@@ -52,11 +55,19 @@ public class BasePickupable : MonoBehaviour
         {
             ModelCollider.enabled = false;
             IsGrabbed = true;
+
+            PlayerScript.HoldingItem = true;
+            PlayerScript.HeldItem = ItemName;
+            PlayerScript.CurrentItem = this;
         }
         if (DropPressed)
         {
             ModelCollider.enabled = true;
             IsGrabbed = false;
+
+            PlayerScript.HoldingItem = false;
+            PlayerScript.HeldItem = "None";
+            PlayerScript.CurrentItem = null;
         }
     }
 
@@ -83,12 +94,19 @@ public class BasePickupable : MonoBehaviour
     private float PlayerDistance;
     private bool CheckPlayerCanPickup()
     {
-        PlayerDirection = Player.position - Body.transform.position;
-        PlayerDistance = PlayerDirection.magnitude;
-
-        if (PlayerDistance <= 2.5f)
+        if (!PlayerScript.HoldingItem)
         {
-            return true;
+            PlayerDirection = PlayerTransform.position - Body.transform.position;
+            PlayerDistance = PlayerDirection.magnitude;
+
+            if (PlayerDistance <= 2.5f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {

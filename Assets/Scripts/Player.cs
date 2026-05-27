@@ -13,11 +13,15 @@ public class Player : MonoBehaviour
     private float SpinSpeed = 5f;
     private float JumpSpeed = 20f;
     private bool Grounded = false;
+    
     private float Health = 100f;
+    
     private bool Punching = false;
     private bool PunchingOut = false;
     private bool PullingPunch = false;
     private bool IsRightFist = true;
+    public bool HoldingItem = false;
+    public string HeldItem = "None";
 
     private bool ForwardPressed = false;
     private bool BackwardPressed = false;
@@ -31,6 +35,8 @@ public class Player : MonoBehaviour
     private TextMeshPro HealthLabel;
     private GameObject FistR;
     private GameObject FistL;
+
+    public BasePickupable CurrentItem = null;
 
     private void Awake()
     {
@@ -136,7 +142,12 @@ public class Player : MonoBehaviour
 
         if (UsePressed && Punching == false)
         {
-            StartCoroutine(Punch());
+            switch (HeldItem)
+            {
+                case "None":
+                    StartCoroutine(Punch());
+                    break;
+            }
         }
         //.
 
