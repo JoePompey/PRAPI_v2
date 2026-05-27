@@ -932,6 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa553da3d292dd4781dd1ebb2816fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamage
+  Damage: 10
 --- !u!1 &5621354639269307379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,6 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa553da3d292dd4781dd1ebb2816fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamage
+  Damage: 10
 --- !u!1 &5742973469308198222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,7 +1335,7 @@ Rigidbody:
   m_GameObject: {fileID: 9023662449913445552}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 10
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

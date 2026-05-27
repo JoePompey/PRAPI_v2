@@ -27,6 +27,11 @@ public class BasePickupable : MonoBehaviour
         Body = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        ModelCollider.enabled = true;
+    }
+
     private void OnEnable()
     {
         PlayerControls.Enable();
@@ -43,7 +48,7 @@ public class BasePickupable : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GrabPressed)
+        if (GrabPressed && CheckPlayerCanPickup())
         {
             ModelCollider.enabled = false;
             IsGrabbed = true;
@@ -53,11 +58,6 @@ public class BasePickupable : MonoBehaviour
             ModelCollider.enabled = true;
             IsGrabbed = false;
         }
-
-        if (!IsGrabbed)
-        {
-            ApplyGravity();
-        }
     }
 
     private void LateUpdate()
@@ -66,6 +66,10 @@ public class BasePickupable : MonoBehaviour
         {
             FollowHand();
         }
+        else
+        {
+            ApplyGravity();
+        }
     }
 
     //Keeps item in player hand.
@@ -73,6 +77,23 @@ public class BasePickupable : MonoBehaviour
     {
         transform.position = Hand.position + Hand.forward * 0.1f;
         transform.rotation = Hand.rotation;
+    }
+
+    private Vector3 PlayerDirection;
+    private float PlayerDistance;
+    private bool CheckPlayerCanPickup()
+    {
+        PlayerDirection = Player.position - Body.transform.position;
+        PlayerDistance = PlayerDirection.magnitude;
+
+        if (PlayerDistance <= 2.5f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     //.
 

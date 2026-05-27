@@ -39,7 +39,6 @@ public class Player : MonoBehaviour
         
         Body = GetComponent<Rigidbody>();
         Body.freezeRotation = true;
-        Body.linearDamping = 10f;
 
         HealthLabel = transform.Find("Health Label").GetComponent<TextMeshPro>();
 
