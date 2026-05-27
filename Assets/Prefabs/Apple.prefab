@@ -410,10 +410,30 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8733534332982714196}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8687695614506709981, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 500690407540933663}
   m_SourcePrefab: {fileID: 100100000, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
 --- !u!4 &1082851247622806424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
   m_PrefabInstance: {fileID: 4947865667782201007}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4339988714884595058 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8687695614506709981, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+  m_PrefabInstance: {fileID: 4947865667782201007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &500690407540933663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4339988714884595058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a921182c5a50e34d8526985bff7d746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Apple

@@ -58,7 +58,12 @@ public class BasePickupable : MonoBehaviour
 
             PlayerScript.HoldingItem = true;
             PlayerScript.HeldItem = ItemName;
-            PlayerScript.CurrentItem = this;
+            PlayerScript.CurrentItem = gameObject;
+            
+            if (ItemName == "Apple")
+            {
+                PlayerScript.AppleScript = gameObject.GetComponent<Apple>();
+            }
         }
         if (DropPressed)
         {
@@ -68,6 +73,7 @@ public class BasePickupable : MonoBehaviour
             PlayerScript.HoldingItem = false;
             PlayerScript.HeldItem = "None";
             PlayerScript.CurrentItem = null;
+            PlayerScript.AppleScript = null;
         }
     }
 

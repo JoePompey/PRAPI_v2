@@ -36,7 +36,8 @@ public class Player : MonoBehaviour
     private GameObject FistR;
     private GameObject FistL;
 
-    public BasePickupable CurrentItem = null;
+    public GameObject CurrentItem = null;
+    public Apple AppleScript = null;
 
     private void Awake()
     {
@@ -146,6 +147,9 @@ public class Player : MonoBehaviour
             {
                 case "None":
                     StartCoroutine(Punch());
+                    break;
+                case "Apple":
+                    EatApple();
                     break;
             }
         }
@@ -289,5 +293,16 @@ public class Player : MonoBehaviour
         }
     }
     //-.
+    //.
+
+    //Eating the apple.
+    private void EatApple()
+    {
+        EditHealth(25);
+        AppleScript.EndLife();
+        HeldItem = "None";
+        HoldingItem = false;
+        CurrentItem = null;
+    }
     //.
 }
