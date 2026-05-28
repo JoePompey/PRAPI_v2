@@ -65,6 +65,10 @@ public class BasePickupable : MonoBehaviour
             {
                 PlayerScript.AppleScript = gameObject.GetComponent<Apple>();
             }
+            else if (ItemName == "Hammer")
+            {
+                PlayerScript.HammerScript = gameObject.GetComponent<Hammer>();
+            }
         }
         if (DropPressed)
         {

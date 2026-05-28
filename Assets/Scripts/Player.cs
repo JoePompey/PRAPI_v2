@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     public GameObject CurrentItem = null;
     public BasePickupable ItemScript = null;
     public Apple AppleScript = null;
+    public Hammer HammerScript = null;
 
     private void Awake()
     {
@@ -150,8 +151,10 @@ public class Player : MonoBehaviour
                     StartCoroutine(Punch());
                     break;
                 case "Apple":
-                    print("nom nom");
                     EatApple();
+                    break;
+                case "Hammer":
+                    SwingHammer();
                     break;
             }
         }
@@ -307,6 +310,13 @@ public class Player : MonoBehaviour
         HeldItem = "None";
         HoldingItem = false;
         CurrentItem = null;
+    }
+    //.
+
+    //Swinging the hammer.
+    private void SwingHammer()
+    {
+        HammerScript.StartSwinging();
     }
     //.
 }
