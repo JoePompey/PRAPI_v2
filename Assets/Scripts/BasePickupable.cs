@@ -15,7 +15,7 @@ public class BasePickupable : MonoBehaviour
     private Transform PlayerTransform;
     private Player PlayerScript;
     private Transform Hand;
-    private SphereCollider ModelCollider;
+    public SphereCollider ModelCollider;
     private Rigidbody Body;
 
     private void Awake()
@@ -26,7 +26,7 @@ public class BasePickupable : MonoBehaviour
         PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerScript = PlayerTransform.GetComponent<Player>();
         Hand = PlayerTransform.Find("Model/FistR");
-        ModelCollider = GameObject.Find("Model/Placehold").GetComponent<SphereCollider>();
+        ModelCollider = GetComponentInChildren<SphereCollider>();
         Body = GetComponent<Rigidbody>();
     }
 
@@ -59,6 +59,7 @@ public class BasePickupable : MonoBehaviour
             PlayerScript.HoldingItem = true;
             PlayerScript.HeldItem = ItemName;
             PlayerScript.CurrentItem = gameObject;
+            PlayerScript.ItemScript = this;
             
             if (ItemName == "Apple")
             {

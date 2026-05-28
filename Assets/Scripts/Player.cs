@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private GameObject FistL;
 
     public GameObject CurrentItem = null;
+    public BasePickupable ItemScript = null;
     public Apple AppleScript = null;
 
     private void Awake()
@@ -149,6 +150,7 @@ public class Player : MonoBehaviour
                     StartCoroutine(Punch());
                     break;
                 case "Apple":
+                    print("nom nom");
                     EatApple();
                     break;
             }
@@ -299,6 +301,8 @@ public class Player : MonoBehaviour
     private void EatApple()
     {
         EditHealth(25);
+        ItemScript.ModelCollider.enabled = true;
+        
         AppleScript.EndLife();
         HeldItem = "None";
         HoldingItem = false;
