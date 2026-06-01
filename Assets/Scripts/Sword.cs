@@ -1,30 +1,30 @@
 using UnityEngine;
 using System.Collections;
 
-public class Hammer : MonoBehaviour
+public class Sword : MonoBehaviour
 {
     //Initialisation.
-    private GameObject HammerModel;
+    private GameObject SwordModel;
 
     private float SwingSpeed = 100f;
-    private bool SlamDown = false;
-    private bool PullUp = false;
+    private bool SwingLeft = false;
+    private bool SwingRight = false;
     private bool Swinging = false;
 
     private void Awake()
     {
-        HammerModel = transform.Find("Model").gameObject;
+        SwordModel = transform.Find("Model").gameObject;
     }
     //.
 
-    //Swinging the hammer.
+    //Swinging the sword.
     private void FixedUpdate()
     {
-        if (SlamDown)
+        if (SwingLeft)
         {
             SwingSmoothener(1f);
         }
-        if (PullUp)
+        if (SwingRight)
         {
             SwingSmoothener(-1f);
         }
@@ -42,20 +42,20 @@ public class Hammer : MonoBehaviour
     {
         //Slamming down.
         Swinging = true;
-        SlamDown = true;
+        SwingLeft = true;
         //.
 
         //Pulling up.
         for (int i = 0; i < 25; i++)
             yield return new WaitForFixedUpdate();
-        SlamDown = false;
-        PullUp = true;
+        SwingLeft = false;
+        SwingRight = true;
         //.
 
         //Finishing swing.
         for (int i = 0; i < 25; i++)
             yield return new WaitForFixedUpdate();
-        PullUp = false;
+        SwingRight = false;
         //.
 
         //Swing cooldown.
@@ -67,7 +67,7 @@ public class Hammer : MonoBehaviour
 
     private void SwingSmoothener(float Direction)
     {
-        HammerModel.transform.Rotate(Vector3.right * SwingSpeed * Time.fixedDeltaTime * Direction);
+        SwordModel.transform.Rotate(Vector3.right * SwingSpeed * Time.fixedDeltaTime * Direction);
     }
     //.
 }

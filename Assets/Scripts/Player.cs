@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     public BasePickupable ItemScript = null;
     public Apple AppleScript = null;
     public Hammer HammerScript = null;
+    public Sword SwordScript = null;
 
     private void Awake()
     {
@@ -155,6 +156,9 @@ public class Player : MonoBehaviour
                     break;
                 case "Hammer":
                     SwingHammer();
+                    break;
+                case "Sword":
+                    SwingSword();
                     break;
             }
         }
@@ -317,6 +321,13 @@ public class Player : MonoBehaviour
     private void SwingHammer()
     {
         HammerScript.StartSwinging();
+    }
+    //.
+
+    //Swinging the sword.
+    private void SwingSword()
+    {
+        SwordScript.StartSwinging();
     }
     //.
 }

@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 5814185928499668297}
   - component: {fileID: 8911738058898651204}
   - component: {fileID: 180244267976441920}
+  - component: {fileID: 9209887485685320432}
   m_Layer: 0
   m_Name: Blade
   m_TagString: Untagged
@@ -340,6 +341,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &9209887485685320432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667880559971092157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa553da3d292dd4781dd1ebb2816fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDamage
+  Damage: 25
 --- !u!1001 &7570749858628496964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -400,6 +414,42 @@ PrefabInstance:
       propertyPath: m_AngularDamping
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 5702279426758127658, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
       propertyPath: ItemName
       value: Sword
@@ -424,8 +474,28 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
       insertIndex: -1
       addedObject: {fileID: 508435511852559023}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8687695614506709981, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5235522516872722045}
   m_SourcePrefab: {fileID: 100100000, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+--- !u!1 &1261097794924961177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8687695614506709981, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
+  m_PrefabInstance: {fileID: 7570749858628496964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5235522516872722045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261097794924961177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3059fa575386c140954c2d55114a609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sword
 --- !u!4 &2503405484716129139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5453110264619013431, guid: 98c7c359fb0caae4588e6ae5767f9035, type: 3}
