@@ -6,7 +6,7 @@ public class Hammer : MonoBehaviour
     //Initialisation.
     private GameObject HammerModel;
 
-    private float SwingSpeed = 10f;
+    private float SwingSpeed = 100f;
     private bool SlamDown = false;
     private bool PullUp = false;
     private bool Swinging = false;
@@ -32,10 +32,13 @@ public class Hammer : MonoBehaviour
 
     public void StartSwinging()
     {
-        StartCoroutine("Swing");
+        if (!Swinging)
+        {
+            StartCoroutine(Swing());
+        }
     }
 
-    private IEnumerable Swing()
+    private IEnumerator Swing()
     {
         //Slamming down.
         Swinging = true;
@@ -43,13 +46,15 @@ public class Hammer : MonoBehaviour
         //.
 
         //Pulling up.
-        yield return new WaitForSeconds(0.05f);
+        for (int i = 0; i <= 25; i++)
+            yield return new WaitForFixedUpdate();
         SlamDown = false;
         PullUp = true;
         //.
 
         //Finishing swing.
-        yield return new WaitForSeconds(0.05f);
+        for (int i = 0; i <= 25; i++)
+            yield return new WaitForFixedUpdate();
         PullUp = false;
         //.
 
@@ -61,7 +66,7 @@ public class Hammer : MonoBehaviour
 
     private void SwingSmoothener(float Direction)
     {
-        HammerModel.transform.Rotate(Vector3.right * SwingSpeed * Time.deltaTime * Direction);
+        HammerModel.transform.Rotate(Vector3.right * SwingSpeed * Time.fixedDeltaTime * Direction);
     }
     //.
 }
