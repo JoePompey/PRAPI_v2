@@ -1,16 +1,20 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
     //Initialisation.
-    private float Speed;
-    private float Health;
+    private float Speed = 3f;
+    private float Health = 100f;
+    private float Damage = 10f;
+    private bool CanDamage = true;
 
     private Rigidbody Body;
     private TextMeshPro HealthLabel;
 
-    private Transform Player;
+    private Transform PlayerTransform;
+    private Player PlayerScript;
 
     private void Awake()
     {
@@ -20,14 +24,12 @@ public class Enemy : MonoBehaviour
 
         HealthLabel = transform.Find("Health Label").GetComponent<TextMeshPro>();
 
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
+        PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        PlayerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     private void Start()
     {
-        Speed = 3f;
-        Health = 100f;
-
         EditHealth(0f);
     }
     //.
@@ -40,6 +42,10 @@ public class Enemy : MonoBehaviour
         //.
 
         ChasePlayer();
+        if (CheckPlayerDistance())
+        {
+            AttackPlayer();
+        }
     }
 
     //Changes health and updates label.
@@ -58,13 +64,48 @@ public class Enemy : MonoBehaviour
     //Follows and faces player.
     private void ChasePlayer()
     {
-        Vector3 PlayerDirection = Player.position - Body.position;
+        Vector3 PlayerDirection = PlayerTransform.position - Body.position;
 
         Body.MovePosition(Body.position + PlayerDirection * Speed * Time.deltaTime);
         Body.rotation = Quaternion.LookRotation(PlayerDirection);
 
         Vector3 CameraDirection = Camera.main.transform.position - HealthLabel.transform.position;
         HealthLabel.transform.rotation = Quaternion.LookRotation(CameraDirection * -1);
+    }
+    //.
+
+    //Checks if player is close enough to attack.
+    private bool CheckPlayerDistance()
+    {
+        Vector3 PlayerDirection = PlayerTransform.position - Body.position;
+        float PlayerDistance = PlayerDirection.magnitude;
+
+        if (PlayerDistance <= 1.5f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //.
+
+    //Attack the player.
+    private void AttackPlayer()
+    {
+        if (CanDamage)
+        {
+            PlayerScript.EditHealth(-Damage);
+            StartCoroutine(AttackCooldown());
+        }
+    }
+
+    IEnumerator AttackCooldown()
+    {
+        CanDamage = false;
+        yield return new WaitForSeconds(0.5f);
+        CanDamage = true;
     }
     //.
 }

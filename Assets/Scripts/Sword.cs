@@ -5,6 +5,7 @@ public class Sword : MonoBehaviour
 {
     //Initialisation.
     private GameObject SwordModel;
+    private WeaponDamage DamageScript;
 
     private float SwingSpeed = 100f;
     private bool SwingLeft = false;
@@ -14,6 +15,7 @@ public class Sword : MonoBehaviour
     private void Awake()
     {
         SwordModel = transform.Find("Model").gameObject;
+        DamageScript = GetComponentInChildren<WeaponDamage>();
     }
     //.
 
@@ -40,12 +42,14 @@ public class Sword : MonoBehaviour
 
     private IEnumerator Swing()
     {
-        //Slamming down.
+        //Swinging left.
         Swinging = true;
         SwingLeft = true;
+        DamageScript.DamageActive = true;
         //.
 
-        //Pulling up.
+        //Swinging right.
+        yield return new WaitForFixedUpdate();
         for (int i = 0; i < 25; i++)
             yield return new WaitForFixedUpdate();
         SwingLeft = false;
@@ -56,6 +60,7 @@ public class Sword : MonoBehaviour
         for (int i = 0; i < 25; i++)
             yield return new WaitForFixedUpdate();
         SwingRight = false;
+        DamageScript.DamageActive = false;
         //.
 
         //Swing cooldown.

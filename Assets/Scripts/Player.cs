@@ -233,7 +233,7 @@ public class Player : MonoBehaviour
     //.
 
     //Changes health and updates label.
-    private void EditHealth(float HealthChange)
+    public void EditHealth(float HealthChange)
     {
         Health += HealthChange;
         HealthLabel.text = "Health: " + Health;
@@ -242,8 +242,10 @@ public class Player : MonoBehaviour
 
     //Lets player punch with cooldowns.
     private GameObject CurrentFist;
+    private WeaponDamage FistDamage;
     IEnumerator Punch()
     {
+        //Picking fist to punch with.
         if (IsRightFist)
         {
             CurrentFist = FistR;
@@ -252,11 +254,14 @@ public class Player : MonoBehaviour
         {
             CurrentFist = FistL;
         }
+        FistDamage = CurrentFist.GetComponent<WeaponDamage>();
+        //.
 
         //Punching out.
         Punching = true;
         PunchingOut = true;
         CurrentFist.GetComponent<SphereCollider>().isTrigger = true;
+        FistDamage.DamageActive = true;
         //.
 
         //Pulling punch.
@@ -269,6 +274,7 @@ public class Player : MonoBehaviour
         //Finishing punch.
         yield return new WaitForSeconds(0.05f);
         PullingPunch = false;
+        FistDamage.DamageActive = false;
         //.
 
         //Punch cooldown.
