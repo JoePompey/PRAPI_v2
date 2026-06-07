@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7148304686758437463}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: EffectColourable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamage
   Damage: 40
+  DamageActive: 0
 --- !u!1 &6732385881134931405
 GameObject:
   m_ObjectHideFlags: 0

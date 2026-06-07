@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Weapon
   - EnemyBody
+  - EffectColourable
   layers:
   - Default
   - TransparentFX

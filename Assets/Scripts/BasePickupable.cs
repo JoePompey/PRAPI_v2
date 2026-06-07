@@ -9,7 +9,7 @@ public class BasePickupable : MonoBehaviour
 
     private bool GrabPressed = false;
     private bool DropPressed = false;
-    private bool IsGrabbed = false;
+    public bool IsGrabbed = false;
     public string ItemName = "Base";
 
     private Transform PlayerTransform;
@@ -17,6 +17,7 @@ public class BasePickupable : MonoBehaviour
     private Transform Hand;
     public SphereCollider ModelCollider;
     private Rigidbody Body;
+    public Burn BurnScript = null;
 
     private void Awake()
     {
@@ -28,6 +29,11 @@ public class BasePickupable : MonoBehaviour
         Hand = PlayerTransform.Find("Model/FistR");
         ModelCollider = GetComponentInChildren<SphereCollider>();
         Body = GetComponent<Rigidbody>();
+
+        if (gameObject.GetComponent<Burn>()  != null)
+        {
+            BurnScript = gameObject.GetComponent<Burn>();
+        }
     }
 
     private void Start()
@@ -73,6 +79,11 @@ public class BasePickupable : MonoBehaviour
             {
                 PlayerScript.SwordScript = gameObject.GetComponent<Sword>();
             }
+
+            if (BurnScript != null)
+            {
+                BurnScript.FireSpread();
+            }
         }
         if (DropPressed)
         {
@@ -83,6 +94,11 @@ public class BasePickupable : MonoBehaviour
             PlayerScript.HeldItem = "None";
             PlayerScript.CurrentItem = null;
             PlayerScript.AppleScript = null;
+
+            if (BurnScript != null)
+            {
+                PlayerScript.gameObject.GetComponent<Burn>().Extinguish();
+            }
         }
     }
 
