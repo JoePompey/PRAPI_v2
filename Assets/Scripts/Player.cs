@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private InputSystem_Actions ControlsFile;
     private InputActionMap PlayerControls;
 
-    private float Speed = 10f;
+    public float Speed = 10f;
     private float SpinSpeed = 5f;
     private float JumpSpeed = 20f;
     private bool Grounded = false;

@@ -18,6 +18,7 @@ public class BasePickupable : MonoBehaviour
     public SphereCollider ModelCollider;
     private Rigidbody Body;
     public Burn BurnScript = null;
+    public Speedy SpeedyScript = null;
 
     private void Awake()
     {
@@ -33,6 +34,10 @@ public class BasePickupable : MonoBehaviour
         if (gameObject.GetComponent<Burn>()  != null)
         {
             BurnScript = gameObject.GetComponent<Burn>();
+        }
+        if (gameObject.GetComponent<Speedy>() != null)
+        {
+            SpeedyScript = gameObject.GetComponent<Speedy>();
         }
     }
 
@@ -84,6 +89,10 @@ public class BasePickupable : MonoBehaviour
             {
                 BurnScript.FireSpread();
             }
+            if (SpeedyScript != null)
+            {
+                SpeedyScript.SpeedySpread();
+            }
         }
         if (DropPressed)
         {
@@ -98,6 +107,10 @@ public class BasePickupable : MonoBehaviour
             if (BurnScript != null)
             {
                 PlayerScript.gameObject.GetComponent<Burn>().Extinguish();
+            }
+            if (SpeedyScript != null)
+            {
+                PlayerScript.gameObject.GetComponent<Speedy>().SlowDown();
             }
         }
     }

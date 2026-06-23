@@ -20,19 +20,15 @@ public class Hammer : MonoBehaviour
     //.
 
     //Swinging the hammer.
-    private int UpFrames = 0;
-    private int DownFrames = 0;
     private void FixedUpdate()
     {
         if (SlamDown)
         {
             SwingSmoothener(1f);
-            DownFrames++;
         }
         if (PullUp)
         {
             SwingSmoothener(-1f);
-            UpFrames++;
         }
     }
 
@@ -53,6 +49,7 @@ public class Hammer : MonoBehaviour
         //.
 
         //Pulling up.
+        yield return new WaitForFixedUpdate();
         for (int i = 0; i < 25; i++)
             yield return new WaitForFixedUpdate();
         SlamDown = false;
@@ -71,10 +68,6 @@ public class Hammer : MonoBehaviour
             yield return new WaitForFixedUpdate();
         Swinging = false;
         //.
-
-        Debug.Log($"Up: {UpFrames}, Down: {DownFrames}");
-        UpFrames = 0;
-        DownFrames = 0;
     }
 
     private void SwingSmoothener(float Direction)
